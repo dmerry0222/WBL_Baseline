@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Work-Based Learning, Class of 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--navy:#15284B; --gold:#E7AB2A; --sky:#3CB4E5; --teal:#40C1AC;
+--body:#595959; --ink:#000000; --bg:#FFFFFF;
+--rule:rgba(21,40,75,.14);
+--tint-02:rgba(21,40,75,.03);
+--tint-05:rgba(21,40,75,.05);
+--tint-08:rgba(21,40,75,.08);
+--fs:"Libre Franklin","Segoe UI",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--fs);font-weight:400;color:var(--body);background:var(--bg);
+  font-size:1rem;line-height:1.65;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(231,171,42,.3)}
+:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+button{font-family:inherit;font-size:inherit;color:inherit}
+
+/* ---------- page header ---------- */
+.strip{padding:30px 46px 22px}
+.head{border-left:3px solid var(--teal);padding-left:20px;max-width:1180px}
+.head h1{margin:0 0 11px;font-size:1.75rem;font-weight:600;color:var(--ink);
+  line-height:1.25;letter-spacing:-.015em}
+.head h1 .hl{color:var(--teal)}
+.head p{margin:0 0 9px;font-size:.8125rem;line-height:1.6;color:var(--body);max-width:760px}
+.head p:last-child{margin-bottom:0}
+
+/* ---------- sticky stat row ---------- */
+.statbar{position:sticky;top:0;z-index:30;background:var(--bg);
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  padding:13px 46px}
+.statrow{display:flex;align-items:center;gap:22px;flex-wrap:nowrap;
+  max-width:1180px;padding-left:23px}
+.pie{flex:0 0 auto;width:74px;height:74px;display:block}
+.stat{flex:0 0 auto}
+.stat .pct{font-size:2.25rem;font-weight:600;color:var(--ink);
+  letter-spacing:-.02em;line-height:1}
+.stat .frac{font-size:.8125rem;color:var(--body);margin-top:3px}
+.statnote{flex:1 1 auto;margin:0;font-size:.8125rem;line-height:1.6;color:var(--body);
+  max-width:720px}
+.statnote .who{color:var(--navy);font-weight:500;
+  box-shadow:inset 0 -2px 0 var(--teal)}
+
+/* ---------- controls ---------- */
+.bar{position:sticky;top:var(--statbarh,104px);z-index:28;background:var(--bg);
+  border-bottom:1px solid var(--rule);padding:7px 46px 6px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.search{flex:0 1 370px;position:relative}
+.search input{width:100%;padding:7px 10px 7px 30px;font-size:.8125rem;
+  font-family:inherit;color:var(--ink);background:var(--tint-02);
+  border:1px solid var(--rule);border-radius:3px}
+.search input::placeholder{color:var(--body);opacity:.75}
+.search svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);
+  width:13px;height:13px;opacity:.5}
+.sel{display:flex;align-items:center;gap:6px;min-width:0}
+.sel .lb{font-size:.6875rem;font-weight:600;color:var(--navy);
+  text-transform:uppercase;letter-spacing:.06em;opacity:.7}
+.sel{position:relative}
+.sel select.has{padding-right:20px}
+.sel .clr{position:absolute;right:22px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;padding:0;border:0;border-radius:50%;background:none;
+  cursor:pointer;color:var(--navy);font-size:.6875rem;line-height:1;opacity:.6}
+.sel .clr:hover{opacity:1;background:var(--tint-08)}
+.sel .clr[hidden]{display:none}
+.sel select{font-family:inherit;font-size:.8125rem;color:var(--ink);
+  background:var(--tint-02);border:1px solid var(--rule);border-radius:3px;
+  padding:6px 8px;max-width:230px;text-overflow:ellipsis}
+.note{margin-left:auto;flex-basis:100%;margin:1px 0 0;font-size:.6875rem;color:var(--body);opacity:.78}
+
+/* ---------- table ---------- */
+.wrap{padding:0 46px 90px}
+table{width:100%;border-collapse:collapse;font-size:.8125rem}
+thead th{position:sticky;top:var(--barh,168px);z-index:20;
+  background:#F7F8FA;
+  font-size:.6875rem;font-weight:600;color:var(--navy);
+  text-transform:uppercase;letter-spacing:.06em;
+  text-align:left;padding:9px 10px;border-bottom:1px solid var(--rule);
+  white-space:nowrap}
+thead th.so{cursor:pointer;user-select:none}
+thead th.so:hover{color:var(--ink)}
+thead th .ar{opacity:0;margin-left:3px;font-size:.625rem}
+thead th[aria-sort] .ar{opacity:1;color:var(--teal)}
+tbody tr{border-bottom:1px solid var(--rule);cursor:pointer;
+  transition:background .18s ease}
+tbody tr:hover,tbody tr:focus-visible{background:var(--tint-05)}
+tbody tr.pos{background:rgba(64,193,172,.08)}
+tbody tr.pos:hover,tbody tr.pos:focus-visible{background:rgba(64,193,172,.13)}
+tbody td{padding:5px 10px;vertical-align:middle}
+td.nm{color:var(--ink);font-weight:500;white-space:nowrap}
+td.tr8{font-size:.75rem}
+td.dp,td.pg{max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+td.ic{width:34px;text-align:center;padding:4px 6px}
+.iconbtn{display:inline-flex;align-items:center;justify-content:center;color:var(--navy);
+  width:24px;height:24px;border:0;background:none;cursor:pointer;border-radius:3px;
+  transition:background .18s ease}
+.iconbtn:hover{background:var(--tint-08)}
+.iconbtn svg{width:15px;height:15px;display:block}
+.iconbtn.off{cursor:default;opacity:.22}
+.iconbtn.off:hover{background:none}
+.dash{color:var(--body);opacity:.3}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;
+  font-weight:500;white-space:nowrap}
+.badge .mk{display:inline-flex;align-items:center;justify-content:center;
+  width:15px;height:15px;border-radius:50%;flex:0 0 15px}
+.badge.y .mk{background:var(--teal);color:#fff}
+.badge.n .mk{border:1.5px solid currentColor;color:var(--body);opacity:.22;font-size:.6875rem;font-weight:600;line-height:1}
+.badge.y{color:var(--navy);font-weight:600}
+.badge.n{color:var(--body)}
+.badge svg{width:9px;height:9px}
+.empty{padding:44px 0;text-align:center;color:var(--body);font-size:.875rem}
+
+/* ---------- modal ---------- */
+.ov{position:fixed;inset:0;z-index:60;background:rgba(21,40,75,.42);
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:60px 22px;overflow-y:auto}
+.ov[hidden]{display:none}
+.md{background:var(--bg);width:100%;max-width:560px;border:1px solid var(--rule);
+  border-top:3px solid var(--navy);box-shadow:0 14px 44px rgba(21,40,75,.18)}
+.md-h{padding:17px 22px 0;display:flex;justify-content:space-between;
+  align-items:flex-start;gap:14px}
+.md-h h2{margin:0;font-size:1.25rem;font-weight:600;color:var(--ink);line-height:1.25}
+.md-h .meta{font-size:.75rem;color:var(--body);margin-top:3px;line-height:1.5}
+.md-h .meta a{color:var(--navy);font-weight:500;text-decoration:none;
+  box-shadow:inset 0 -1px 0 var(--rule)}
+.md-h .meta a:hover{box-shadow:inset 0 -1px 0 var(--navy)}
+.md-h .meta button{border:0;background:none;padding:0;cursor:pointer;
+  font-size:.75rem;color:var(--navy);font-weight:500;
+  box-shadow:inset 0 -1px 0 var(--rule)}
+.md-h .meta button:hover{box-shadow:inset 0 -1px 0 var(--navy)}
+.x{flex:0 0 auto;width:26px;height:26px;border:0;background:none;cursor:pointer;
+  color:var(--navy);border-radius:3px;font-size:.9375rem;line-height:1;
+  transition:background .18s ease}
+.x:hover{background:var(--tint-08)}
+.md-b{padding:14px 22px 20px}
+.sec+.sec{margin-top:15px}
+.sec h3{margin:0 0 5px;font-size:1rem;font-weight:600;color:var(--ink);
+  line-height:1.3}
+.ln{font-size:.8125rem;line-height:1.55;color:var(--body);padding:1px 0;
+  padding-left:13px;text-indent:-13px}
+.ln .pri{color:var(--navy);font-weight:500}
+.sp{opacity:.4;padding:0 5px}
+.none{margin-top:2px;font-size:.8125rem;line-height:1.55;color:var(--body)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);
+  background:var(--navy);color:#fff;font-size:.8125rem;font-weight:500;
+  padding:10px 16px;border-radius:3px;z-index:80;
+  box-shadow:0 8px 24px rgba(21,40,75,.26)}
+.toast[hidden]{display:none}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+@media (max-width:1100px){
+  .strip{padding:22px 22px 16px}.statbar{padding:11px 22px}
+  .bar{padding:9px 22px}.wrap{padding:0 22px 70px}
+  .head h1{font-size:1.375rem}.stat .pct{font-size:1.875rem}.pie{width:62px;height:62px}
+  td.dp,td.pg{max-width:150px}
+  .hero .pct{font-size:2.25rem}
+}
+@media (max-width:760px){
+  .statrow{flex-wrap:wrap;gap:14px;padding-left:0}
+  .statnote{flex:1 1 100%;max-width:none}
+  col.hide,td.hide,th.hide{display:none}
+  col.m-hide,td.m-hide,th.m-hide{display:none}
+  table{min-width:420px}
+  tbody td{padding:5px 7px;font-size:.75rem}
+  thead th{padding:8px 7px}
+  td.ic{width:30px;padding:4px 4px}
+  .badge{font-size:.6875rem;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.gate{max-width:640px;margin:34px 46px 60px;padding-left:23px}
+.gate h2{margin:0 0 8px;font-size:1.25rem;font-weight:600;color:var(--ink)}
+.gate p,.gate li{font-size:.875rem;line-height:1.6}
+.gate li{margin-bottom:6px}
+.gate code{font-size:.8125rem;background:var(--tint-05);padding:1px 5px;border-radius:3px}
+.gate a{color:var(--navy);font-weight:500}
+.drop{display:flex;align-items:center;justify-content:center;margin-top:14px;
+  padding:34px 20px;border:2px dashed var(--rule);border-radius:6px;cursor:pointer;
+  text-align:center;font-size:.875rem;color:var(--navy);font-weight:500;
+  transition:background .18s ease,border-color .18s ease}
+.drop:hover,.drop.over,.drop:focus-visible{background:var(--tint-05);border-color:var(--teal)}
+.err{color:#9B1C1C;font-weight:500}
+.err[hidden]{display:none}
+</style>
+</head>
+<body>
+
+<header class="strip">
+  <div class="head">
+    <h1>Baseline Engagement in <span class="hl">Work-Based Learning</span></h1>
+    <p>For the 1,107 undergraduate students of the 2026 graduating cohort. A synthesis of
+      LinkedIn research, student resume reviews, patchwork departmental data about
+      internships, and class registration information from OIRA.</p>
+    <p>For general extrapolation purposes only. Suffolk lacks a centralized system for this
+      information, so the data are somewhat rough. That will tend to err on the side of
+      omitting great experiences that were not found, rather than overestimating them.</p>
+  </div>
+</header>
+
+<section class="gate" id="gate">
+  <h2>Student data required</h2>
+  <p>This page contains no student information. The data lives in a Suffolk-only shared file.</p>
+  <ol>
+    <li><a id="dataLink" href="#" target="_blank" rel="noopener noreferrer">Click here to access the Suffolk student data</a>
+      and sign in with your Suffolk account. Download the file (<code>wbl_data.json</code>).
+      If it opens as text, use the download button instead.</li>
+    <li>Drop the file below. It is read in your browser only and is never uploaded.</li>
+  </ol>
+  <label class="drop" id="drop" tabindex="0">
+    <span id="dropMsg">Drop wbl_data.json here, or click to choose it</span>
+    <input type="file" id="file" accept=".json,application/json" class="sr">
+  </label>
+  <p class="err" id="gateErr" role="alert" hidden></p>
+</section>
+
+<div id="app" hidden>
+<div class="statbar" id="statbar">
+  <div class="statrow">
+    <svg class="pie" id="pie" viewBox="0 0 100 100" role="img" aria-labelledby="pieT"></svg>
+    <div class="stat">
+      <div class="pct" id="sPct">0%</div>
+      <div class="frac" id="sFrac"></div>
+    </div>
+    <p class="statnote" id="sNote"></p>
+  </div>
+</div>
+
+<div class="bar" id="bar">
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
+    <label class="sr" for="q">Search students</label>
+    <input id="q" type="search" placeholder="Search name, department, program, employer">
+  </div>
+  <span class="sel"><select aria-label="School" id="fSchool"></select><button type="button" class="clr" id="fSchoolX" aria-label="Clear school filter" hidden>✕</button></span>
+  <span class="sel"><select aria-label="Department" id="fDept"></select><button type="button" class="clr" id="fDeptX" aria-label="Clear department filter" hidden>✕</button></span>
+  <span class="sel"><select aria-label="Program" id="fProg"></select><button type="button" class="clr" id="fProgX" aria-label="Clear program filter" hidden>✕</button></span>
+</div>
+
+<main class="wrap">
+  <table id="tbl">
+    <colgroup>
+      <col style="width:11%"><col style="width:13%"><col class="m-hide" style="width:7%">
+      <col class="hide" style="width:21%"><col class="hide" style="width:18%">
+      <col style="width:9%"><col style="width:40px"><col style="width:40px"><col style="width:40px">
+    </colgroup>
+    <thead><tr id="hr"></tr></thead>
+    <tbody id="tb"></tbody>
+  </table>
+  <div class="empty" id="empty" hidden>No students match these filters.</div>
+</main>
+</div>
+
+<div class="ov" id="ov" hidden>
+  <div class="md" role="dialog" aria-modal="true" aria-labelledby="mdName" id="md"></div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ---- configuration ---- */
+var DATA_URL='https://sumail.sharepoint.com/sites/SGETaskforce/_layouts/15/download.aspx?UniqueId=9fb47997d35944eb9ca391fe764349ef&e=T14vpt'; /* download link to wbl_data.json on SharePoint */
+var PDF_BASE='https://sumail.sharepoint.com/:b:/r/sites/SGETaskforce/Shared%20Documents/pdfs/';
+
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i)};
+function boot(D){
+var S=D.students, ST=D.stats, TN=D.termname;
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var fmt=function(n){return n.toLocaleString('en-US')};
+
+/* ---- stat row ---- */
+function pieSVG(f){
+  var t='<title id="pieT">'+(f*100).toFixed(1)+' percent of students shown have a '+
+    'qualifying record</title>';
+  var bg='<circle cx="50" cy="50" r="50" fill="var(--tint-08)"/>';
+  if(f<=0) return t+bg;
+  if(f>=1) return t+'<circle cx="50" cy="50" r="50" fill="var(--teal)"/>';
+  var a=f*2*Math.PI,
+      x=(50+50*Math.sin(a)).toFixed(3), y=(50-50*Math.cos(a)).toFixed(3),
+      lg=f>0.5?1:0;
+  return t+bg+'<path d="M50,50 L50,0 A50,50 0 '+lg+' 1 '+x+','+y+' Z" fill="var(--teal)"/>';
+}
+function setStat(shown,yes){
+  var f=shown?yes/shown:0;
+  $('pie').innerHTML=pieSVG(f);
+  $('sPct').textContent=shown?(f*100).toFixed(1)+'%':'\u2014';
+  $('sFrac').textContent=yes+'/'+shown;
+  var who=(shown===ST.total)?'of the undergrad class of 2026':'of the filtered students below';
+  $('sNote').innerHTML='<span class="who">'+esc(who)+'</span> had a documented internship, faculty-led research experience, or participation in a SEED clinic, based on available resume, LinkedIn, and institutional data. This is a reasonable proxy for an incomplete inventory of experiences that could have satisfied the WBL requirement, provided they met the five established criteria (hours, supervision, etc.).';
+}
+
+/* ---- filters ---- */
+var F={q:'',school:'',dept:'',prog:''};
+var SEL=[{id:'fSchool',key:'school',f:'sc',all:'All schools'},
+         {id:'fDept',key:'dept',f:'dp',all:'All departments'},
+         {id:'fProg',key:'prog',f:'pg',all:'All programs'}];
+/* each dropdown lists only values that occur among students matching the OTHER two */
+function buildSelects(){
+  SEL.forEach(function(me){
+    var seen={};
+    S.forEach(function(s){
+      if(!s[me.f]) return;
+      for(var i=0;i<SEL.length;i++){
+        var o=SEL[i]; if(o===me) continue;
+        if(F[o.key]&&s[o.f]!==F[o.key]) return;
+      }
+      seen[s[me.f]]=1;
+    });
+    var vals=Object.keys(seen).sort(function(a,b){return a.localeCompare(b)});
+    var el=$(me.id);
+    el.innerHTML='<option value="">'+esc(me.all)+'</option>'+vals.map(function(v){
+      return '<option value="'+esc(v)+'">'+esc(v)+'</option>'}).join('');
+    el.value=F[me.key];
+    el.classList.toggle('has',!!F[me.key]);
+    $(me.id+'X').hidden=!F[me.key];
+  });
+}
+SEL.forEach(function(me){
+  $(me.id).addEventListener('change',function(){F[me.key]=this.value;buildSelects();render()});
+});
+buildSelects();
+SEL.forEach(function(me){
+  $(me.id+'X').addEventListener('click',function(){
+    F[me.key]='';buildSelects();render();$(me.id).focus()});
+});
+$('q').addEventListener('input',function(){F.q=this.value.trim().toLowerCase();render()});
+
+/* ---- sort ---- */
+var COLS=[
+ {k:'l',t:'Last',c:'nm'},{k:'f',t:'First',c:'nm'},{k:'sc',t:'SCH',c:'tr8 m-hide'},
+ {k:'dp',t:'Department',c:'dp hide'},{k:'pg',t:'Program',c:'pg hide'},
+{k:'rz',t:'Resume',c:'ic',ns:1},
+ {k:'li',t:'LinkedIn',c:'ic',ns:1},{k:'q',t:'WBL',c:'ic'}
+];
+var SORT={k:'l',dir:1};
+$('hr').innerHTML=COLS.map(function(c,i){
+  var cls=(c.ns?'':'so')+(c.c.indexOf('hide')>-1?' hide':'');
+  return '<th class="'+cls+'"'+(c.ns?'':' data-i="'+i+'" tabindex="0" role="button"')+
+    '>'+esc(c.t)+'<span class="ar">▲</span></th>'}).join('');
+function hsort(i){
+  var k=COLS[i].k;
+  if(SORT.k===k) SORT.dir*=-1; else {SORT.k=k;SORT.dir=1}
+  $('hr').querySelectorAll('th').forEach(function(th){th.removeAttribute('aria-sort')});
+  var th=$('hr').querySelector('th[data-i="'+i+'"]');
+  if(th){th.setAttribute('aria-sort',SORT.dir===1?'ascending':'descending');
+    th.querySelector('.ar').textContent=SORT.dir===1?'▲':'▼'}
+  render();
+}
+$('hr').addEventListener('click',function(e){
+  var th=e.target.closest('th[data-i]'); if(th) hsort(+th.dataset.i)});
+$('hr').addEventListener('keydown',function(e){
+  if(e.key!=='Enter'&&e.key!==' ') return;
+  var th=e.target.closest('th[data-i]'); if(th){e.preventDefault();hsort(+th.dataset.i)}});
+
+/* ---- render ---- */
+var CHK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" '+
+ 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.8l5.2 5.2L20 6.4"/></svg>';
+var DOC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" '+
+ 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
+ '<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/>'+
+ '<path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>';
+var LI='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'+
+ '<path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM2.4 21h5.2V9.5H2.4zm7.6 0h5.1v-6.3c0-3.3 4.3-3.6 4.3 0V21h5.1v-8c0-7.1-7.6-6.8-9.4-3.3V9.5H10z"/></svg>';
+var rows=[];
+function pdfUrl(s){return PDF_BASE+encodeURIComponent(s.pdf)}
+function current(){
+  var out=S.filter(function(s){
+    if(F.school&&s.sc!==F.school) return false;
+    if(F.dept&&s.dp!==F.dept) return false;
+    if(F.prog&&s.pg!==F.prog) return false;
+    if(F.q){
+      var hay=(s.f+' '+s.l+' '+s.dp+' '+s.pg+' '+
+        s.ex.map(function(e){return e.e+' '+e.r}).join(' ')+' '+
+        s.cq.map(function(c){return c.c+' '+c.n}).join(' ')).toLowerCase();
+      if(hay.indexOf(F.q)<0) return false;
+    }
+    return true;
+  });
+  var k=SORT.k,d=SORT.dir;
+  out.sort(function(a,b){
+    var x=a[k],y=b[k];
+    if(typeof x==='number'||typeof y==='number'){x=x||0;y=y||0;
+      if(x!==y) return (x-y)*d}
+    else{x=String(x||'').toLowerCase();y=String(y||'').toLowerCase();
+      if(x!==y) return (x<y?-1:1)*d}
+    return String(a.l+a.f).toLowerCase()<String(b.l+b.f).toLowerCase()?-1:1;
+  });
+  return out;
+}
+function render(){
+  rows=current();
+  setStat(rows.length,rows.filter(function(r){return r.q}).length);
+  $('empty').hidden=rows.length>0;
+  var h=rows.map(function(s,i){
+    var rz=s.rz? '<button class="iconbtn" type="button" data-rz="'+i+'" '+
+        'aria-label="Open resume for '+esc(s.f+' '+s.l)+' (PDF, opens in a new tab)" '+
+        'title="Open resume">'+DOC+'</button>'
+      : '<span class="dash" aria-hidden="true">·</span>'+
+        '<span class="sr">No resume on file</span>';
+    var li=s.li? '<a class="iconbtn" href="'+esc(s.li)+'" target="_blank" rel="noopener noreferrer" '+
+        'data-stop="1" aria-label="LinkedIn profile for '+esc(s.f+' '+s.l)+', opens in a new tab">'+LI+'</a>'
+      : '<span class="dash" aria-hidden="true">·</span>'+
+        '<span class="sr">No LinkedIn address</span>';
+    var bd=s.q? '<span class="badge y"><span class="mk" aria-hidden="true">'+CHK+'</span><span class="sr">On record</span></span>'
+      : '<span class="badge n"><span class="mk" aria-hidden="true">?</span><span class="sr">None known</span></span>';
+    return '<tr tabindex="0" data-i="'+i+'"'+(s.q?' class="pos"':'')+'>'+
+      '<td class="nm">'+esc(s.l)+'</td><td class="nm">'+esc(s.f)+'</td>'+
+      '<td class="tr8 m-hide">'+esc(s.sc)+'</td>'+
+      '<td class="dp hide" title="'+esc(s.dp)+'">'+esc(s.dp)+'</td>'+
+      '<td class="pg hide" title="'+esc(s.pg)+'">'+esc(s.pg)+'</td>'+
+      '<td class="ic">'+rz+'</td><td class="ic">'+li+'</td><td class="ic">'+bd+'</td></tr>';
+  }).join('');
+  $('tb').innerHTML=h;
+  offs();
+}
+
+/* ---- toast ---- */
+var tt;
+function toast(m){
+  var t=$('toast'); t.textContent=m; t.hidden=false;
+  clearTimeout(tt); tt=setTimeout(function(){t.hidden=true},2600);
+}
+
+function showType(e){
+  var r=String(e.r||'').toLowerCase(), t=String(e.t||'');
+  if(!t) return false;
+  if(t==='Internship'&&r.indexOf('intern')>-1) return false;
+  if(t==='Research Assistant'&&r.indexOf('research')>-1) return false;
+  return true;
+}
+/* ---- modal ---- */
+var last=null;
+var DOT='<span class="sp" aria-hidden="true">·</span>';
+function line(parts){
+  parts=parts.filter(function(x){return x&&String(x).trim()});
+  if(!parts.length) return '';
+  return '<div class="ln"><span class="pri">'+esc(parts[0])+'</span>'+
+    parts.slice(1).map(function(x){return DOT+esc(x)}).join('')+'</div>';
+}
+function open(s){
+  last=document.activeElement;
+  var meta=[s.sc,s.pg].filter(Boolean).map(esc).join(' · ')+
+    (s.gt?' · '+esc(TN[s.gt]||s.gt):'');
+  if(s.rz) meta+=' · <a href="'+esc(pdfUrl(s))+'" target="_blank" rel="noopener noreferrer">Resume</a>';
+  if(s.li) meta+=' · <a href="'+esc(s.li)+'" target="_blank" rel="noopener noreferrer">LinkedIn</a>';
+  var b='';
+  if(s.ex.length){
+    b+='<section class="sec"><h3>Experiences</h3>'+
+      s.ex.map(function(e){return line([e.e||'Site not recorded',e.r,e.d])}).join('')+
+      '</section>';
+  }
+  if(s.cq.length){
+    b+='<section class="sec"><h3>Registered Courses</h3>'+
+      s.cq.map(function(c){return line([c.c,c.n,c.tm])}).join('')+'</section>';
+  }
+  if(!s.ex.length&&!s.cq.length){
+    b+='<p class="none">No WBL experience was found in the sources used to compile this data. </p>'+
+      '<p class="none">However, that should <b>not</b> be taken as evidence that this student didn&#39;t engage in one or more experiences that may have satisfied the WBL requirement.</p>';
+  }
+  $('md').innerHTML='<div class="md-h"><div><h2 id="mdName">'+esc(s.f+' '+s.l)+'</h2>'+
+    '<div class="meta">'+meta+'</div></div>'+
+    '<button class="x" type="button" id="mX" aria-label="Close">✕</button></div>'+
+    '<div class="md-b">'+b+'</div>';
+  $('ov').hidden=false;
+  document.body.style.overflow='hidden';
+  $('mX').focus();
+  $('mX').onclick=close;
+}
+function close(){
+  $('ov').hidden=true; document.body.style.overflow='';
+  if(last&&last.focus) last.focus();
+}
+$('ov').addEventListener('click',function(e){if(e.target===$('ov')) close()});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&!$('ov').hidden) close();
+  if(e.key==='Tab'&&!$('ov').hidden){
+    var f=$('md').querySelectorAll('button,a[href],input');
+    if(!f.length) return;
+    var a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}
+    else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}
+  }
+});
+$('tb').addEventListener('click',function(e){
+  if(e.target.closest('[data-stop]')) return;
+  var rz=e.target.closest('[data-rz]');
+  if(rz){e.stopPropagation();window.open(pdfUrl(rows[+rz.dataset.rz]),'_blank','noopener');return}
+  var tr=e.target.closest('tr[data-i]'); if(tr) open(rows[+tr.dataset.i]);
+});
+$('tb').addEventListener('keydown',function(e){
+  if(e.key!=='Enter') return;
+  var tr=e.target.closest('tr[data-i]'); if(tr){e.preventDefault();open(rows[+tr.dataset.i])}
+});
+
+/* ---- sticky offsets ---- */
+function offs(){
+  var sh=$('statbar').offsetHeight, bh=$('bar').offsetHeight;
+  document.documentElement.style.setProperty('--statbarh',sh+'px');
+  document.documentElement.style.setProperty('--barh',(sh+bh)+'px');
+}
+window.addEventListener('resize',offs);
+if(window.ResizeObserver){
+  var ro=new ResizeObserver(offs);
+  ro.observe($('statbar')); ro.observe($('bar'));
+}
+render(); hsort(0); offs();
+setTimeout(offs,350);
+}
+
+/* ---- data gate ---- */
+function showErr(m){var e=$('gateErr');e.textContent=m;e.hidden=false}
+function valid(D){
+  return D&&Array.isArray(D.students)&&D.students.length&&D.stats&&typeof D.stats.total==='number'&&
+    D.termname&&D.students.every(function(s){return s&&s.id&&Array.isArray(s.ex)&&Array.isArray(s.cq)});
+}
+function load(f){
+  if(!f) return;
+  $('gateErr').hidden=true;
+  var r=new FileReader();
+  r.onerror=function(){showErr('Could not read that file.')};
+  r.onload=function(){
+    var D;
+    try{D=JSON.parse(r.result)}catch(x){showErr('That file is not valid JSON. Make sure you downloaded wbl_data.json, not a preview page.');return}
+    if(!valid(D)){showErr('That file does not look like the WBL student data file.');return}
+    $('gate').hidden=true; $('app').hidden=false;
+    boot(D);
+  };
+  r.readAsText(f);
+}
+var dl=$('dataLink');
+if(DATA_URL) dl.href=DATA_URL;
+else {dl.removeAttribute('href');dl.title='Data link not configured yet'}
+$('file').addEventListener('change',function(){load(this.files[0])});
+var dz=$('drop');
+['dragenter','dragover'].forEach(function(t){dz.addEventListener(t,function(e){e.preventDefault();dz.classList.add('over')})});
+['dragleave','drop'].forEach(function(t){dz.addEventListener(t,function(e){e.preventDefault();dz.classList.remove('over')})});
+dz.addEventListener('drop',function(e){load(e.dataTransfer.files[0])});
+dz.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();$('file').click()}});
+})();
+</script>
+</body>
+</html>
