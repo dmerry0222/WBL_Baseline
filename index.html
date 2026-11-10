@@ -205,23 +205,6 @@ td.ic{width:34px;text-align:center;padding:4px 6px}
   </div>
 </header>
 
-<section class="gate" id="gate">
-  <h2>Student data required</h2>
-  <p>This page contains no student information. The data lives in a Suffolk-only shared file.</p>
-  <ol>
-    <li><a id="dataLink" href="#" target="_blank" rel="noopener noreferrer">Click here to access the Suffolk student data</a>
-      and sign in with your Suffolk account. Download the file (<code>wbl_data.json</code>).
-      If it opens as text, use the download button instead.</li>
-    <li>Drop the file below. It is read in your browser only and is never uploaded.</li>
-  </ol>
-  <label class="drop" id="drop" tabindex="0">
-    <span id="dropMsg">Drop wbl_data.json here, or click to choose it</span>
-    <input type="file" id="file" accept=".json,application/json" class="sr">
-  </label>
-  <p class="err" id="gateErr" role="alert" hidden></p>
-</section>
-
-<div id="app" hidden>
 <div class="statbar" id="statbar">
   <div class="statrow">
     <svg class="pie" id="pie" viewBox="0 0 100 100" role="img" aria-labelledby="pieT"></svg>
@@ -233,6 +216,22 @@ td.ic{width:34px;text-align:center;padding:4px 6px}
   </div>
 </div>
 
+<section class="gate" id="gate">
+  <h2>Student data required</h2>
+  <p>This page contains no student information. The data lives in a Suffolk-only shared file.</p>
+  <ol>
+    <li><a id="dataLink" href="#" target="_blank" rel="noopener noreferrer">Click here to access the Suffolk student data</a>
+      from Suffolk SharePoint.</li>
+    <li>Drop the file below. It is read in your browser only and is never uploaded.</li>
+  </ol>
+  <label class="drop" id="drop" tabindex="0">
+    <span id="dropMsg">Drop wbl_data.json here, or click to choose it</span>
+    <input type="file" id="file" accept=".json,application/json" class="sr">
+  </label>
+  <p class="err" id="gateErr" role="alert" hidden></p>
+</section>
+
+<div id="app" hidden>
 <div class="bar" id="bar">
   <div class="search">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
@@ -274,30 +273,7 @@ var PDF_BASE='https://sumail.sharepoint.com/:b:/r/sites/SGETaskforce/Shared%20Do
 var $=function(i){return document.getElementById(i)};
 function boot(D){
 var S=D.students, ST=D.stats, TN=D.termname;
-var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
-  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
-var fmt=function(n){return n.toLocaleString('en-US')};
-
-/* ---- stat row ---- */
-function pieSVG(f){
-  var t='<title id="pieT">'+(f*100).toFixed(1)+' percent of students shown have a '+
-    'qualifying record</title>';
-  var bg='<circle cx="50" cy="50" r="50" fill="var(--tint-08)"/>';
-  if(f<=0) return t+bg;
-  if(f>=1) return t+'<circle cx="50" cy="50" r="50" fill="var(--teal)"/>';
-  var a=f*2*Math.PI,
-      x=(50+50*Math.sin(a)).toFixed(3), y=(50-50*Math.cos(a)).toFixed(3),
-      lg=f>0.5?1:0;
-  return t+bg+'<path d="M50,50 L50,0 A50,50 0 '+lg+' 1 '+x+','+y+' Z" fill="var(--teal)"/>';
-}
-function setStat(shown,yes){
-  var f=shown?yes/shown:0;
-  $('pie').innerHTML=pieSVG(f);
-  $('sPct').textContent=shown?(f*100).toFixed(1)+'%':'\u2014';
-  $('sFrac').textContent=yes+'/'+shown;
-  var who=(shown===ST.total)?'of the undergrad class of 2026':'of the filtered students below';
-  $('sNote').innerHTML='<span class="who">'+esc(who)+'</span> had a documented internship, faculty-led research experience, or participation in a SEED clinic, based on available resume, LinkedIn, and institutional data. This is a reasonable proxy for an incomplete inventory of experiences that could have satisfied the WBL requirement, provided they met the five established criteria (hours, supervision, etc.).';
-}
+TOTAL=ST.total;
 
 /* ---- filters ---- */
 var F={q:'',school:'',dept:'',prog:''};
@@ -516,6 +492,32 @@ if(window.ResizeObserver){
 render(); hsort(0); offs();
 setTimeout(offs,350);
 }
+
+/* ---- stat row (shown before data loads, from cached aggregate figures) ---- */
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var TOTAL=1107;
+function pieSVG(f){
+  var t='<title id="pieT">'+(f*100).toFixed(1)+' percent of students shown have a '+
+    'qualifying record</title>';
+  var bg='<circle cx="50" cy="50" r="50" fill="var(--tint-08)"/>';
+  if(f<=0) return t+bg;
+  if(f>=1) return t+'<circle cx="50" cy="50" r="50" fill="var(--teal)"/>';
+  var a=f*2*Math.PI,
+      x=(50+50*Math.sin(a)).toFixed(3), y=(50-50*Math.cos(a)).toFixed(3),
+      lg=f>0.5?1:0;
+  return t+bg+'<path d="M50,50 L50,0 A50,50 0 '+lg+' 1 '+x+','+y+' Z" fill="var(--teal)"/>';
+}
+function setStat(shown,yes){
+  var f=shown?yes/shown:0;
+  $('pie').innerHTML=pieSVG(f);
+  $('sPct').textContent=shown?(f*100).toFixed(1)+'%':'\u2014';
+  $('sFrac').textContent=yes+'/'+shown;
+  var who=(shown===TOTAL)?'of the undergrad class of 2026':'of the filtered students below';
+  $('sNote').innerHTML='<span class="who">'+esc(who)+'</span> had a documented internship, faculty-led research experience, or participation in a SEED clinic, based on available resume, LinkedIn, and institutional data. This is a reasonable proxy for an incomplete inventory of experiences that could have satisfied the WBL requirement, provided they met the five established criteria (hours, supervision, etc.).';
+}
+
+setStat(1107,750);
 
 /* ---- data gate ---- */
 function showErr(m){var e=$('gateErr');e.textContent=m;e.hidden=false}
